@@ -14,8 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
-Route::get('/', function () {
-    return view('dashboard');
+Route::Fallback(function () {
+    return 'Maaf tidak ada halaman yang anda maksud';
 });
 
+Route::get('/', function () {
+    return view('app.dashboard');
+})->name('Dashboard');
+
+Route::get('/Map', function () {
+    return view('app.map');
+})->name('Map');
