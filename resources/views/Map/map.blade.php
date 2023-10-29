@@ -1,6 +1,4 @@
-@extends('partials.header_footer')
-@extends('partials.sidebar')
-
+@extends('app.index')
 
 @section('content')
 <main id="main" class="main">

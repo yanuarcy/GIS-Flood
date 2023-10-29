@@ -1,5 +1,5 @@
-@extends('partials.header_footer')
-@extends('partials.sidebar')
+@extends('app.index')
+{{-- @extends('layouts.sidebar') --}}
 
 
 @section('content')

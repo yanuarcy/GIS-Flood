@@ -23,5 +23,9 @@ Route::get('/', function () {
 })->name('Dashboard');
 
 Route::get('/Map', function () {
-    return view('app.map');
+    return view('Map.map');
 })->name('Map');
+
+Route::get('/Tables', function () {
+    return view('Tables.FloodArea');
+})->name('Tables.FloodArea');
