@@ -57,7 +57,7 @@
                 </li>
 
                 <li>
-                    <a href="{{ route('Tables.FloodArea') }}">
+                    <a href="{{ route('Charts.FloodArea') }}">
                         <i class="bi bi-circle"></i><span>Flood Area</span>
                     </a>
                 </li>

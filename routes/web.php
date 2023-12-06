@@ -29,3 +29,7 @@ Route::get('/Map', function () {
 Route::get('/Tables', function () {
     return view('Tables.FloodArea');
 })->name('Tables.FloodArea');
+
+Route::get('/Charts', function() {
+    return view('Charts.FloodArea');
+})->name('Charts.FloodArea');
