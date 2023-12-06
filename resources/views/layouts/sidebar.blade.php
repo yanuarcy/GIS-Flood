@@ -10,7 +10,7 @@
         <li class="nav-item @if ($currentRouteName == 'Dashboard') active @endif">
             <a class="nav-link " href="{{ route('Dashboard') }}">
                 <i class="bi bi-grid"></i>
-                <span>Dashboard</span>
+                <span>Overview</span>
             </a>
         </li><!-- End Dashboard Nav -->
 
