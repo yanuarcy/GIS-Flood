@@ -160,7 +160,7 @@
                         <div class="card-body pb-0">
                             <h5 class="card-title">Flood Risk <span>| Today</span></h5>
 
-                            <div id="trafficChart" style="min-height: 780px;" class="echart">
+                            <div id="trafficChart" style="min-height: 1000px;" class="echart">
                             </div>
 
                             <script>

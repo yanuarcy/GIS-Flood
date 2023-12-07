@@ -39,51 +39,37 @@
                         <div class="col-12">
                             <div class="card recent-sales overflow-auto">
 
-                                <div class="filter">
-                                    <a class="icon" href="#" data-bs-toggle="dropdown"><i
-                                            class="bi bi-three-dots"></i></a>
-                                    <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
-                                        <li class="dropdown-header text-start">
-                                            <h6>Filter</h6>
-                                        </li>
-
-                                        <li><a class="dropdown-item" href="#">Today</a></li>
-                                        <li><a class="dropdown-item" href="#">This Month</a></li>
-                                        <li><a class="dropdown-item" href="#">This Year</a></li>
-                                    </ul>
-                                </div>
-
                                 <div class="card-body">
-                                    <h5 class="card-title">Surabaya <span>| Today</span></h5>
+                                    <h5 class="card-title">Kabupaten Surabaya </h5>
 
                                     <table class="table table-borderless datatable">
                                         <thead>
                                             <tr>
                                                 <th scope="col">No</th>
-                                                <th scope="col">Kota/Kabupaten</th>
+                                                <th scope="col">Kecamatan</th>
                                                 <th scope="col">Luas Area Sawah Terdampak</th>
-                                                <th scope="col">Estimasi jumlah produksi yang rugi</th>
+                                                <th scope="col">Estimasi j umlah produksi yang rugi</th>
                                                 {{-- <th scope="col">Status</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
                                             <tr>
                                                 <th scope="row">1</th>
-                                                <td>Lamongan</td>
+                                                <td>Benowo</td>
                                                 <td>25 Ha</td>
                                                 <td>0,025 Ton</td>
                                                 {{-- <td><span class="badge bg-success">Approved</span></td> --}}
                                             </tr>
                                             <tr>
                                                 <th scope="row">2</th>
-                                                <td>Jombang</td>
+                                                <td>Pakal</td>
                                                 <td>872 Ha</td>
                                                 <td>0,872 Ton</td>
                                                 {{-- <td><span class="badge bg-warning">Pending</span></td> --}}
                                             </tr>
                                             <tr>
                                                 <th scope="row">3</th>
-                                                <td>Jember</td>
+                                                <td>Tandes</td>
                                                 <td>150 Ha</td>
                                                 <td>0,15 Ton</td>
                                                 {{-- <td><span class="badge bg-success">Approved</span></td> --}}
@@ -314,28 +300,94 @@
                         </div>
 
                         <div class="card-body pb-0">
-                            <h5 class="card-title">Website Traffic <span>| Today</span></h5>
+                            <h5 class="card-title">Flood Risk<span>| Today</span></h5>
 
                             <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
 
                             <script>
+                                // document.addEventListener("DOMContentLoaded", () => {
+                                //     echarts.init(document.querySelector("#trafficChart")).setOption({
+                                //         tooltip: {
+                                //             trigger: 'item'
+                                //         },
+                                //         legend: {
+                                //             top: '5%',
+                                //             left: 'center'
+                                //         },
+                                //         series: [{
+                                //             name: 'Access From',
+                                //             type: 'pie',
+                                //             radius: ['40%', '70%'],
+                                //             avoidLabelOverlap: false,
+                                //             label: {
+                                //                 show: false,
+                                //                 position: 'center'
+                                //             },
+                                //             emphasis: {
+                                //                 label: {
+                                //                     show: true,
+                                //                     fontSize: '18',
+                                //                     fontWeight: 'bold'
+                                //                 }
+                                //             },
+                                //             labelLine: {
+                                //                 show: false
+                                //             },
+                                //             data: [{
+                                //                     value: 1048,
+                                //                     name: 'Benowo'
+                                //                 },
+                                //                 {
+                                //                     value: 735,
+                                //                     name: 'Pakal'
+                                //                 },
+                                //                 {
+                                //                     value: 580,
+                                //                     name: 'Tandes'
+                                //                 },
+                                //             ]
+                                //         }]
+                                //     });
+                                // });
+
                                 document.addEventListener("DOMContentLoaded", () => {
+                                    const data = [{
+                                            value: 1048,
+                                            name: 'Benowo'
+                                        },
+                                        {
+                                            value: 735,
+                                            name: 'Pakal'
+                                        },
+                                        {
+                                            value: 580,
+                                            name: 'Tandes'
+                                        },
+                                    ]
+
+                                    const total = data.reduce((acc, curr) => acc + curr.value, 0);
+                                    data.forEach(item => {
+                                        item.value = Math.floor((item.value / total) * 100).toFixed(2);
+                                    });
+
                                     echarts.init(document.querySelector("#trafficChart")).setOption({
                                         tooltip: {
-                                            trigger: 'item'
+                                            trigger: 'item',
+                                            formatter: '{b}: {d}%',
                                         },
                                         legend: {
                                             top: '5%',
                                             left: 'center'
                                         },
                                         series: [{
-                                            name: 'Access From',
+                                            name: 'Jawa Timur',
                                             type: 'pie',
                                             radius: ['40%', '70%'],
                                             avoidLabelOverlap: false,
                                             label: {
                                                 show: false,
-                                                position: 'center'
+                                                position: 'center',
+                                                formatter: '{b}: {d}%',
                                             },
                                             emphasis: {
                                                 label: {
@@ -347,27 +399,7 @@
                                             labelLine: {
                                                 show: false
                                             },
-                                            data: [{
-                                                    value: 1048,
-                                                    name: 'Search Engine'
-                                                },
-                                                {
-                                                    value: 735,
-                                                    name: 'Direct'
-                                                },
-                                                {
-                                                    value: 580,
-                                                    name: 'Email'
-                                                },
-                                                {
-                                                    value: 484,
-                                                    name: 'Union Ads'
-                                                },
-                                                {
-                                                    value: 300,
-                                                    name: 'Video Ads'
-                                                }
-                                            ]
+                                            data: data
                                         }]
                                     });
                                 });
