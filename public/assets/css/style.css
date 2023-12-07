@@ -1243,3 +1243,40 @@ h6 {
   font-size: 13px;
   color: #012970;
 }
+
+
+.filter {
+    padding: 20px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+/* Style for select inputs */
+label {
+    margin-bottom: 0.5rem;
+    display: block;
+    font-weight: bold;
+}
+
+select {
+    width: 100%;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    border-radius: 0.25rem;
+    border: 1px solid #ced4da;
+}
+
+#filterButton {
+    display: block;
+    margin: 0 auto;
+    background-color: #4154f1;
+    color: white;
+    transition: background-color 0.5s ease, color 0.5s ease;
+    text-transform: uppercase;
+}
+
+#filterButton:hover {
+    background-color: #fff;
+    color: #3141d1;
+}
