@@ -8,7 +8,7 @@ export default defineConfig({
                 'resources/sass/app.scss',
                 'resources/sass/Map/DropdownKategori.scss',
                 'resources/sass/Map/index.scss',
-                'resources/sass/Map/_variables.scss',
+                'resources/sass/_variables.scss',
                 'resources/js/app.js',
             ],
             refresh: true,
