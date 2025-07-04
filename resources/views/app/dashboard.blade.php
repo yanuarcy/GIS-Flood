@@ -1,6 +1,8 @@
 @extends('app.index')
 {{-- @extends('layouts.sidebar') --}}
 
+@vite('resources/sass/Map/DropdownKategori.scss')
+
 
 @section('content')
     <main id="main" class="main">
@@ -51,7 +53,7 @@
                         <div class="col-12">
                             <div class="card">
 
-                                <div class="filter">
+                                {{-- <div class="filter">
                                     <a class="icon" href="#" data-bs-toggle="dropdown"><i
                                             class="bi bi-three-dots"></i></a>
                                     <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow">
@@ -63,22 +65,208 @@
                                         <li><a class="dropdown-item" href="#">This Month</a></li>
                                         <li><a class="dropdown-item" href="#">This Year</a></li>
                                     </ul>
-                                </div>
+                                </div> --}}
+
+
 
                                 <div class="card-body">
-                                    <h5 class="card-title">Reports <span>/Today</span></h5>
+                                    <div class="row">
+                                        <div class="col">
+                                            <h5 class="card-title">Tabel Simulation <span>/ Populasi</span></h5>
+                                        </div>
+                                        <div class="col">
+                                            <div class="select-menu" style="margin-left: 43%; margin-top: 15px;">
+                                                <div class="select-btn">
+                                                    <span class="sBtn-text" data-value="All">Select your option</span>
+                                                </div>
+
+                                                <ul class="options" id="option-list">
+                                                    <li class="option">
+                                                        <option data-value="Produktivitas Padi" class="option-text">
+                                                            Produktivitas
+                                                            Padi
+                                                        </option>
+                                                    </li>
+                                                    <li class="option">
+                                                        <option data-value="Populasi" class="option-text">Populasi</option>
+                                                    </li>
+                                                    <li class="option">
+                                                        <option data-value="Tingkat Kemiskinan" class="option-text">Tingkat
+                                                            Kemiskinan
+                                                        </option>
+                                                    </li>
+                                                    <li class="option">
+                                                        <option data-value="Luas Area Sawah Terdampak" class="option-text">
+                                                            Luas Area
+                                                            Sawah Terdampak</option>
+                                                    </li>
+                                                    {{-- @foreach ($Kategoris as $kategori)
+                                                    <li class="option">
+                                                        <option class="option-text" data-value="{{ $kategori->id }}"
+                                                            {{ old('    kategori') == $kategori->id ? 'selected' : '' }}>{{ $kategori->nm_kategori }}
+                                                        </option>
+                                                    </li>
+                                                @endforeach --}}
+                                                </ul>
+                                            </div>
+                                            <script>
+                                                const optionMenu = document.querySelector(".select-menu");
+                                                const selectBtn = optionMenu.querySelector(".select-btn");
+                                                const options = optionMenu.querySelectorAll(".option");
+                                                const sBtn_text = optionMenu.querySelector(".sBtn-text");
+
+                                                selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));
+
+                                                options.forEach(option => {
+                                                    option.addEventListener("click", () => {
+                                                        let selectedOption = option.querySelector(".option-text").innerText;
+                                                        let selectedValue = option.querySelector(".option-text").getAttribute("data-value");
+
+                                                        sBtn_text.innerText = selectedOption;
+                                                        sBtn_text.setAttribute("data-value", selectedValue);
+
+                                                        optionMenu.classList.remove("active");
+                                                        console.log(selectedValue);
+                                                        // selectedValues[0] = selectedValue
+                                                        // window.location.href = '/Produk/' + selectedValue;
+
+                                                    });
+                                                });
+                                            </script>
+                                        </div>
+                                    </div>
+                                    {{-- <h5 class="card-title">Tabel Simulation <span>/ Populasi</span></h5> --}}
+
+
+                                    <div class="col-12">
+                                        <div class="">
+
+                                            <div class="">
+
+                                                <table class="table table-borderless datatable">
+                                                    <thead>
+                                                        <tr>
+                                                            <th scope="col">No</th>
+                                                            <th scope="col">Tahun</th>
+                                                            <th scope="col">Data Real</th>
+                                                            <th scope="col">Data Simulasi</th>
+                                                            {{-- <th scope="col">Status</th> --}}
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <th scope="row">1</th>
+                                                            <td>2002</td>
+                                                            <td>33976825</td>
+                                                            <td>35032500</td>
+                                                            {{-- <td><span class="badge bg-success">Approved</span></td> --}}
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">2</th>
+                                                            <td>2003</td>
+                                                            <td>35574080</td>
+                                                            <td>37344300</td>
+                                                            {{-- <td><span class="badge bg-warning">Pending</span></td> --}}
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">3</th>
+                                                            <td>2004</td>
+                                                            <td>35849345</td>
+                                                            <td>38221800</td>
+                                                            {{-- <td><span class="badge bg-success">Approved</span></td> --}}
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">4</th>
+                                                            <td>2005</td>
+                                                            <td>35849345</td>
+                                                            <td>38221800</td>
+                                                            {{-- <td><span class="badge bg-success">Approved</span></td> --}}
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">5</th>
+                                                            <td>2006</td>
+                                                            <td>35849345</td>
+                                                            <td>38221800</td>
+                                                            {{-- <td><span class="badge bg-success">Approved</span></td> --}}
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">6</th>
+                                                            <td>2007</td>
+                                                            <td>35849345</td>
+                                                            <td>38221800</td>
+                                                            {{-- <td><span class="badge bg-success">Approved</span></td> --}}
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">7</th>
+                                                            <td>2008</td>
+                                                            <td>35849345</td>
+                                                            <td>38221800</td>
+                                                            {{-- <td><span class="badge bg-success">Approved</span></td> --}}
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">8</th>
+                                                            <td>2009</td>
+                                                            <td>35849345</td>
+                                                            <td>38221800</td>
+                                                            {{-- <td><span class="badge bg-success">Approved</span></td> --}}
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">9</th>
+                                                            <td>2010</td>
+                                                            <td>35849345</td>
+                                                            <td>38221800</td>
+                                                            {{-- <td><span class="badge bg-success">Approved</span></td> --}}
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">10</th>
+                                                            <td>2011</td>
+                                                            <td>35849345</td>
+                                                            <td>38221800</td>
+                                                            {{-- <td><span class="badge bg-success">Approved</span></td> --}}
+                                                        </tr>
+                                                        <tr>
+                                                            <th scope="row">11</th>
+                                                            <td>2012</td>
+                                                            <td>35849345</td>
+                                                            <td>38221800</td>
+                                                            {{-- <td><span class="badge bg-success">Approved</span></td> --}}
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+
+                                            </div>
+
+                                        </div>
+                                    </div><!-- End Recent Sales -->
+
+                                </div>
+
+                            </div>
+                        </div><!-- End Reports -->
+
+                        <div class="col-12">
+                            <div class="card">
+
+
+
+
+
+                                <div class="card-body">
+                                    <h5 class="card-title">Grafik Simulation <span>/ Populasi</span></h5>
+
+
 
                                     <!-- Line Chart -->
-                                    <div id="reportsChart"></div>
+                                    <div id="reportsChartt"></div>
 
                                     <script>
                                         document.addEventListener("DOMContentLoaded", () => {
-                                            new ApexCharts(document.querySelector("#reportsChart"), {
+                                            new ApexCharts(document.querySelector("#reportsChartt"), {
                                                 series: [{
-                                                        name: 'Estimasi jumlah produksi yang rugi',
+                                                        name: 'Data Real',
                                                         data: [31, 40, 28, 51, 42, 82, 56],
                                                     }, {
-                                                        name: 'Luas Area Sawah Terdampak',
+                                                        name: 'Data Simulasi',
                                                         data: [11, 32, 45, 32, 34, 52, 41]
                                                     },
                                                     //   {
@@ -96,7 +284,7 @@
                                                 markers: {
                                                     size: 4
                                                 },
-                                                colors: ['#4154f1', '#2eca6a', '#ff771d'],
+                                                colors: ['#4154f1', '#2eca6a'],
                                                 fill: {
                                                     type: "gradient",
                                                     gradient: {
@@ -115,10 +303,10 @@
                                                 },
                                                 xaxis: {
                                                     type: 'datetime',
-                                                    categories: ["2018-09-19T00:00:00.000Z", "2018-09-19T01:30:00.000Z",
-                                                        "2018-09-19T02:30:00.000Z", "2018-09-19T03:30:00.000Z",
-                                                        "2018-09-19T04:30:00.000Z", "2018-09-19T05:30:00.000Z",
-                                                        "2018-09-19T06:30:00.000Z"
+                                                    categories: ["2000-09-19T00:00:00.000Z", "2005-09-19T01:30:00.000Z",
+                                                        "2010-09-19T02:30:00.000Z", "2015-09-19T03:30:00.000Z",
+                                                        "2020-09-19T04:30:00.000Z", "2025-09-19T05:30:00.000Z",
+                                                        "2033-09-19T06:30:00.000Z"
                                                     ]
                                                 },
                                                 tooltip: {

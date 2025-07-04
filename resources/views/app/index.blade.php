@@ -8,10 +8,22 @@
     <title>AquaWatch</title>
     <meta content="" name="description">
     <meta content="" name="keywords">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
 
     <!-- Favicons -->
     <link href="/assets/img/TittleIcon.png" rel="icon">
     <link href="/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+    {{-- <link rel="stylesheet" href="maps/css/leaflet.css">
+    <link rel="stylesheet" href="maps/css/qgis2web.css">
+    <link rel="stylesheet" href="maps/css/fontawesome-all.min.css">
+    <link rel="stylesheet" href="maps/css/leaflet-control-geocoder.Geocoder.css"> --}}
+    {{-- @vite('resources/css/leaflet.css')
+    @vite('resources/css/qgis2web.css') --}}
+    {{-- <link rel="stylesheet" href="css/leaflet.css">
+    <link rel="stylesheet" href="css/qgis2web.css">
+    <link rel="stylesheet" href="css/fontawesome-all.min.css"> --}}
 
     {{-- Leaflet.js --}}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -19,7 +31,16 @@
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="leaflet.ajax.js"></script>
+    {{-- <script src="leaflet.ajax.js"></script> --}}
+    {{-- <script src="js/leaflet/qgis2web_expressions.js"></script> --}}
+    {{-- <script src="js/leaflet/leaflet.js"></script> --}}
+    {{-- <script src="js/leaflet/leaflet.rotatedMarker.js"></script> --}}
+    {{-- <script src="js/leaflet/leaflet.pattern.js"></script> --}}
+    {{-- <script src="js/leaflet-hash.js"></script> --}}
+    {{-- <script src="js/leaflet/Autolinker.min.js"></script> --}}
+    {{-- <script src="js/leaflet/rbush.min.js"></script> --}}
+    {{-- <script src="js/leaflet/labelgun.min.js"></script> --}}
+    {{-- <script src="js/leaflet/labels.js"></script> --}}
 
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -71,8 +92,33 @@
 <script src="/assets/vendor/tinymce/tinymce.min.js"></script>
 <script src="/assets/vendor/php-email-form/validate.js"></script>
 
+{{-- <script src="maps/js/qgis2web_expressions.js"></script>
+<script src="maps/js/leaflet.js"></script>
+<script src="maps/js/leaflet.rotatedMarker.js"></script>
+<script src="maps/js/leaflet.pattern.js"></script>
+<script src="maps/js/leaflet-hash.js"></script>
+<script src="maps/js/Autolinker.min.js"></script>
+<script src="maps/js/rbush.min.js"></script>
+<script src="maps/js/labelgun.min.js"></script>
+<script src="maps/js/labels.js"></script>
+<script src="maps/js/leaflet-control-geocoder.Geocoder.js"></script>
+<script src="maps/data/jatim_1.js"></script> --}}
+
+{{-- @vite('resources/js/leaflet.ajax.js') --}}
+{{-- @vite('js/JsLeaflet/qgis2web_expressions.js') --}}
+{{-- @vite('js/JsLeaflet/leaflet.js') --}}
+{{-- @vite('js/JsLeaflet/leaflet.rotatedMarker.j')" --}}
+{{-- @vite('js/JsLeaflet/leaflet.pattern.j')" --}}
+{{-- @vite('js/leaflet-hash.js')" --}}
+{{-- @vite('js/JsLeaflet/Autolinker.min.j')" --}}
+{{-- @vite('js/JsLeaflet/rbush.min.j')" --}}
+{{-- @vite('js/JsLeaflet/labelgun.min.j')" --}}
+{{-- @vite('js/JsLeaflet/labels.js') --}}
+{{-- @vite('resources/views/Map/jatim_1.js') --}}
+
 <!-- Template Main JS File -->
 <script src="/assets/js/main.js"></script>
+{{-- <script src="/assets/data/jatim_1.js"></script> --}}
 
 </body>
 

@@ -1,0 +1,13 @@
+.btnFilter {
+    padding: 15px 40px 15px 40px;
+    background-color: #4153F1;
+    border: 1px solid #4153F1;
+    border-radius: 5px;
+    color: white;
+}
+
+.btnFilter:hover {
+    transition: ease-in-out 0.3s;
+    background-color: white;
+    color: #4153F1;
+}

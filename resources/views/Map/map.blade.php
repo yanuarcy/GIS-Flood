@@ -1,6 +1,25 @@
+@php
+    // Mengambil nilai dari JavaScript dan memasukkannya ke dalam array PHP
+    // $selectedValues1 = json_encode($selectedValues);
+    $selectedValues1 = isset($_REQUEST['selectedValues'])
+        ? json_decode($_REQUEST['selectedValues'], true)
+        : ['All', ''];
+@endphp
+
 @extends('app.index')
 
 {{-- @vite('resources/views/Map/leaflet.ajax.js') --}}
+@vite('public/maps/css/leaflet.css')
+@vite('public/maps/css/qgis2web.css')
+@vite('public/maps/css/fontawesome-all.min.css')
+@vite('public/maps/css/leaflet-control-geocoder.Geocoder.css')
+@vite('resources/sass/Map/DropdownKategori.scss')
+@vite('resources/js/Map/DropdownKategori.js')
+@vite('resources/sass/Map/index.scss')
+{{-- <link rel="stylesheet" href="maps/css/leaflet.css">
+<link rel="stylesheet" href="maps/css/qgis2web.css">
+<link rel="stylesheet" href="maps/css/fontawesome-all.min.css">
+<link rel="stylesheet" href="maps/css/leaflet-control-geocoder.Geocoder.css"> --}}
 
 @section('content')
     <main id="main" class="main">
@@ -40,13 +59,16 @@
                             <div class="card recent-sales overflow-auto">
 
                                 <div class="card-body">
-                                    <h5 class="card-title">Kabupaten Surabaya </h5>
+                                    @php
+                                        $currentYear = date('Y');
+                                    @endphp
+                                    <h5 class="card-title">{{ $selectedValues1[0] }} <span>/{{ $currentYear }}</span></h5>
 
                                     <table class="table table-borderless datatable">
                                         <thead>
                                             <tr>
                                                 <th scope="col">No</th>
-                                                <th scope="col">Kecamatan</th>
+                                                <th scope="col">Kabupaten</th>
                                                 <th scope="col">Luas Area Sawah Terdampak</th>
                                                 <th scope="col">Estimasi j umlah produksi yang rugi</th>
                                                 {{-- <th scope="col">Status</th> --}}
@@ -96,10 +118,16 @@
                         <div class="card-body">
                             <h5 class="card-title">Filter By</h5>
 
-                            <div class="mb-3">
-                                <label for="selectKabupaten" class="form-label">Pilih Kabupaten:</label>
-                                <select id="selectKabupaten" class="form-select">
-                                    <option value="all">Semua Kabupaten</option>
+                            <form action="{{ route('Filter') }}" id="filterForm" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                    <label for="selectKabupaten" class="form-label">Pilih Kategori: </label>
+                                    {{-- <a href="{{ route('MapJatim') }}">Map</a> --}}
+                                    {{-- <select id="selectKabupaten" class="form-select">
+                                    <option value="all">Produktivitas Padi</option>
+                                    <option value="all">Kerugian Petani</option>
+                                    <option value="all">Populasi</option>
+                                    <option value="all">Tingkat Kemiskinan</option>
                                     <script>
                                         const kabupaten = [
                                             "Bangkalan", "Banyuwangi", "Blitar", "Bojonegoro", "Bondowoso",
@@ -121,165 +149,159 @@
                                             });
                                         });
                                     </script>
-                                </select>
-                            </div>
+                                </select> --}}
 
-                            <!-- Input untuk memilih Kecamatan -->
-                            <div class="mb-3">
-                                <label for="selectKecamatan" class="form-label">Pilih Kecamatan:</label>
-                                <select id="selectKecamatan" class="form-select">
-                                    <option value="all">Semua Kecamatan</option>
+                                    <div class="select-menu">
+                                        <div class="select-btn">
+                                            <span class="sBtn-text" data-value="All">Select your option</span>
+                                        </div>
+
+                                        <ul class="options" id="option-list">
+                                            <li class="option">
+                                                <option data-value="Produktivitas Padi" class="option-text">Produktivitas
+                                                    Padi
+                                                </option>
+                                            </li>
+                                            <li class="option">
+                                                <option data-value="Populasi" class="option-text">Populasi</option>
+                                            </li>
+                                            <li class="option">
+                                                <option data-value="Tingkat Kemiskinan" class="option-text">Tingkat
+                                                    Kemiskinan
+                                                </option>
+                                            </li>
+                                            <li class="option">
+                                                <option data-value="Luas Area Sawah Terdampak" class="option-text">Luas Area
+                                                    Sawah Terdampak</option>
+                                            </li>
+                                            {{-- @foreach ($Kategoris as $kategori)
+                                            <li class="option">
+                                                <option class="option-text" data-value="{{ $kategori->id }}"
+                                                    {{ old('    kategori') == $kategori->id ? 'selected' : '' }}>{{ $kategori->nm_kategori }}
+                                                </option>
+                                            </li>
+                                        @endforeach --}}
+                                        </ul>
+                                    </div>
                                     <script>
-                                        const kecamatan = {
-                                            Surabaya: [
-                                                "Asemrowo", "Benowo", "Bubutan", "Bulak", "Dukuh Pakis", "Gayungan",
-                                                "Genteng", "Gubeng", "Gunung Anyar", "Jambangan", "Karang Pilang",
-                                                "Kenjeran", "Krembangan", "Lakarsantri", "Mulyorejo", "Pabean Cantian",
-                                                "Pakal", "Rungkut", "Sambikerep", "Sawahan", "Semampir", "Simokerto",
-                                                "Sukolilo", "Sukomanunggal", "Tambaksari", "Tandes", "Tegalsari",
-                                                "Tenggilis Mejoyo", "Wiyung", "Wonocolo", "Wonokromo"
-                                            ],
-                                            Sidoarjo: [
-                                                "Buduran", "Candi", "Gedangan", "Jabon", "Krembung", "Krian",
-                                                "Porong", "Prambon", "Sedati", "Sidoarjo", "Sukodono", "Taman",
-                                                "Tanggulangin", "Tarik", "Waru", "Wonoayu"
-                                            ],
-                                            Bangkalan: [
-                                                "Arosbaya", "Bangkalan", "Blega", "Burneh", "Galis", "Geger", "Kamal", "Klampis",
-                                                "Kokop", "Konang", "Kwanyar", "Labang", "Modung", "Sepulu", "Socah", "Tanah Merah",
-                                                "Tanjung Bumi", "Tragah"
-                                            ],
-                                            Blitar: [
-                                                "Bakung", "Binangun", "Doko", "Gandusari", "Garum", "Kademangan", "Kanigoro",
-                                                "Kesamben", "Nglegok", "Panggungrejo", "Ponggok", "Sanankulon", "Selorejo",
-                                                "Selopuro", "Srengat", "Sutojayan", "Talun", "Udanawu", "Wates", "Wlingi",
-                                                "Wonodadi", "Wonotirto"
-                                            ],
-                                            Bondowoso: [
-                                                "Binakal", "Bondowoso", "Botolinggo", "Cermee", "Curahdami", "Grujugan",
-                                                "Jambesari Darus Sholah", "Klabang", "Maesan", "Pakem", "Prajekan", "Pujer",
-                                                "Sempol", "Sukosari", "Seumberwringin", "Taman Krocok", "Tanaman", "Tapen",
-                                                "Tegalampel", "Tenggarang", "Tlogosari", "Wringin", "Wonosari"
-                                            ],
-                                            Jember: [
-                                                "Ajung", "Ambulu", "Arjasa", "Bangalsari", "Balung", "Gumukmas", "Jelbuk",
-                                                "Jenggawah", "Jombang", "Kalisat", "Kaliwates", "Kencong", "Ledokombo", "Mayang",
-                                                "Mumbulsari", "Panti", "Pakusari", "Patrang", "Puger", "Rambipuji", "Semboro",
-                                                "Silo", "Sukorambi", "Sukowono", "Sumberbaru", "Sumberjame", "Sumbersari", "Tanggul",
-                                                "Tempurejo", "Umbulsari", "Wuluhan"
-                                            ],
-                                            Kediri: [
-                                                "Badas", "Banyakan", "Gampangrejo", "Grogol", "Gurah", "Kandangan", "Kandat",
-                                                "Kayen Kidul", "Kepung", "Kras", "Kunjang", "Mojo", "Ngadiluwih", "Ngancar", "Ngasem",
-                                                "Pagu", "Papar", "Pare", "Plemahan", "Posoklaten", "Puncu", "Purwosari", "Ringinrejo",
-                                                "Semen", "Tarokan", "Wates"
-                                            ],
-                                            Lumajang: [
-                                                "Candipuro", "Gucialit", "Jatiroto", "Kedungjajang", "Klakah", "Kunir", "Lumajang",
-                                                "Padang", "Pasirian", "Pasrujambe", "Pronojiwo", "Randuagung", "Ranuyoso",
-                                                "Rowokangkung", "Senduro", "Sukodono", "Sumbersuko", "Tekung", "Tempeh", "Tempursari",
-                                                "Yosowilangun"
-                                            ],
-                                            Magetan: [
-                                                "Barat", "Bendo", "Karangrejo", "Karas", "Kartoharjo", "Kawedanan", "Lembeyan",
-                                                "Magetan", "Maospati", "Ngariboyo", "Nguntoronadi", "Panekan", "Parang", "Plaosan",
-                                                "Poncol", "Sidorejo", "Sukomoro", "Takeran"
-                                            ],
-                                            Mojokerto: [
-                                                "Bangsal", "Dawarblandong", "Dlanggu", "Gedeg", "Gondang", "Jatirejo", "Jetis",
-                                                "Kemlagi", "Kutorejo", "Mojoanyar", "Ngoro", "Pacet", "Pungging", "Puri", "Sooko",
-                                                "Trawas", "Trowulan"
-                                            ],
-                                            Ngawi: [
-                                                "Bringin", "Geneng", "Gerih", "Jogorogo", "Karanganyar", "Karangjati", "Kasreman",
-                                                "Kedunggalar", "Kendal", "Kwadungan", "Mantingan", "Ngawi Kota", "Ngrambe", "Padas",
-                                                "Pangkur", "Paron", "Pitu", "Sine", "Widodaren"
-                                            ],
-                                            Pamekasan: [
-                                                "Batu Marmar", "Galis", "Kadur", "Larangan", "Pademawu", "Pakong", "Paesan", "Palenggan",
-                                                "Pamekasan", "Pengantenan", "Proppo", "Tianakan", "Waru"
-                                            ],
-                                            Ponorogo: [
-                                                "Babadan", "Badegan", "Balong", "Bungkal", "Jambon", "Jenangan", "Jetis", "Kauman", "Mlarak",
-                                                "Ngebel", "Ngrayun", "Ponorogo", "Pudak", "Pulung", "Sambit", "Sampung", "Sawoo", "Siman",
-                                                "Slahung", "Sooko", "Sukorejo"
-                                            ],
-                                            Sampang: [
-                                                "Banyuates", "Camplong", "Jrengik", "Karangpenang", "Kedungdung", "Ketapang", "Omben",
-                                                "Pengarengan", "Robatal", "Sampang", "Sokobanah", "Sreseh", "Tambelangan", "Torjun"
-                                            ],
-                                            Situbondo: [
-                                                "Arjasa", "Asembagus", "Banyuglugur", "Banyuputih", "Besuki", "Bungatan", "Jangkar",
-                                                "Jatibanteng", "Kapongan", "Kendit", "Mangaran", "Mlandingan", "Panarukan", "Panji",
-                                                "Situbondo", "Suboh", "Sumber Malang"
-                                            ],
-                                            Trenggalek: [
-                                                "Panggul", "Munjungan", "Pule", "Dongko", "Tugu", "Karangan", "Kampak", "Watulimo",
-                                                "Bendungan", "Gandusari", "Trenggalek", "Pogalan", "Durenan", "Suruh"
-                                            ],
-                                            Tulungagung: [
-                                                "Tulungagung", "Boyolangu", "Kedungwaru", "Ngantru", "Kauman", "Pagerwojo", "Sendang",
-                                                "Karangrejo", "Gondang", "Sumbergempol", "Ngunut", "Pucanglaban", "Rejotangan",
-                                                "Kalidawir", "Besuki", "Campurdarat", "Bandung", "Pakel", "Tanggung Gunung"
-                                            ],
+                                        // const optionMenu = document.querySelector(".select-menu");
+                                        // const selectBtn = optionMenu.querySelector(".select-btn");
+                                        // const options = optionMenu.querySelectorAll(".option");
+                                        // const sBtn_text = optionMenu.querySelector(".sBtn-text");
 
-                                            // ... dan seterusnya untuk 38 kabupaten sesuai kebutuhan
-                                        };
+                                        // selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));
 
-                                        const selectKecamatan = document.getElementById("selectKecamatan");
-                                        const selectKabupaten = document.getElementById("selectKabupaten");
+                                        // options.forEach(option => {
+                                        //     option.addEventListener("click", () => {
+                                        //         let selectedOption = option.querySelector(".option-text").innerText;
+                                        //         let selectedValue = option.querySelector(".option-text").getAttribute("data-value");
 
-                                        selectKabupaten.addEventListener("change", function() {
-                                            while (selectKecamatan.options.length > 1) {
-                                                selectKecamatan.remove(1);
+                                        //         sBtn_text.innerText = selectedOption;
+                                        //         sBtn_text.setAttribute("data-value", selectedValue);
+
+                                        //         optionMenu.classList.remove("active");
+                                        //         console.log(selectedValue);
+                                        //         // window.location.href = '/Produk/' + selectedValue;
+
+                                        //     });
+                                        // });
+                                    </script>
+                                </div>
+
+
+
+                                <!-- Input untuk memilih Tahun -->
+                                <div class="mb-3">
+                                    <label for="selectTahun" class="form-label">Pilih Tahun:</label>
+                                    <select id="selectTahun" class="form-select" style="margin-bottom: 30px">
+                                        <script>
+                                            const selectTahun = document.getElementById("selectTahun");
+                                            const startYear = 2002;
+                                            const endYear = 2022;
+
+                                            for (let year = startYear; year <= endYear; year++) {
+                                                const option = document.createElement("option");
+                                                option.value = year;
+                                                option.textContent = year;
+                                                selectTahun.appendChild(option);
                                             }
 
-                                            const selectedKabupaten = selectKabupaten.value;
+                                            // selectTahun.addEventListener('change', function() {
+                                            //     console.log(this.value); // Mencetak nilai tahun yang dipilih ke konsol
+                                            // });
+                                        </script>
+                                    </select>
+                                </div>
 
-                                            if (selectedKabupaten === "all") {
-                                                Object.keys(kecamatan).forEach((kab) => {
-                                                    kecamatan[kab].forEach((namaKecamatan) => {
-                                                        const option = document.createElement("option");
-                                                        option.value = namaKecamatan;
-                                                        option.textContent = namaKecamatan;
-                                                        selectKecamatan.appendChild(option);
-                                                    });
-                                                });
-                                            } else {
-                                                kecamatan[selectedKabupaten].forEach((namaKecamatan) => {
-                                                    const option = document.createElement("option");
-                                                    option.value = namaKecamatan;
-                                                    option.textContent = namaKecamatan;
-                                                    selectKecamatan.appendChild(option);
-                                                });
-                                            }
-                                        });
-                                    </script>
-                                </select>
-                            </div>
+                                <button id="filterBtn" class="btn btn-primary"
+                                    style="width: 50%; border-radius: 5px; font-size: 15px ">
+                                    Filter
+                                </button>
+                                <input type="hidden" id="selectedValuesInput" name="selectedValues" value="">
+                            </form>
+                            <script>
+                                let selectedValues = ["All", ""]; // Nilai default untuk kategori dan tahun
 
-                            <!-- Input untuk memilih Tahun -->
-                            <div class="mb-3">
-                                <label for="selectTahun" class="form-label">Pilih Tahun:</label>
-                                <select id="selectTahun" class="form-select">
-                                    <script>
-                                        const selectTahun = document.getElementById("selectTahun");
-                                        const startYear = 2002;
-                                        const endYear = 2022;
+                                // Dapatkan input tersembunyi
+                                const selectedValuesInput = document.getElementById('selectedValuesInput');
 
-                                        for (let year = startYear; year <= endYear; year++) {
-                                            const option = document.createElement("option");
-                                            option.value = year;
-                                            option.textContent = year;
-                                            selectTahun.appendChild(option);
-                                        }
-                                    </script>
-                                </select>
-                            </div>
+                                // Mendapatkan formulir
+                                const filterForm = document.getElementById('filterForm');
 
-                            <button id="filterButton" class="btn btn-primary" style="width: 50%; border-radius: 5px; ">
-                                Filter
-                            </button>
+                                // Atur nilai variabel JavaScript ke input tersembunyi saat tombol filter diklik
+                                document.getElementById('filterBtn').addEventListener('click', function() {
+                                    // Set nilai variabel JavaScript ke value dari input tersembunyi
+                                    selectedValuesInput.value = JSON.stringify(selectedValues);
+
+                                    // Set nilai variabel JavaScript sebagai bagian dari URL action formulir
+                                    // Set nilai ID
+                                    // selectedValuesInput.value = encodeURIComponent(selectedValues[0]);
+
+                                    // Set nilai variabel JavaScript sebagai bagian dari URL action formulir
+                                    // filterForm.action = "/Map/" + encodeURIComponent(selectedValues[0]);
+
+                                    // // Submit formulir
+                                    // filterForm.submit();
+                                });
+
+                                const optionMenu = document.querySelector(".select-menu");
+                                const selectBtn = optionMenu.querySelector(".select-btn");
+                                const options = optionMenu.querySelectorAll(".option");
+                                const sBtn_text = optionMenu.querySelector(".sBtn-text");
+
+                                selectBtn.addEventListener("click", () => optionMenu.classList.toggle("active"));
+
+                                options.forEach(option => {
+                                    option.addEventListener("click", () => {
+                                        let selectedOption = option.querySelector(".option-text").innerText;
+                                        let selectedValue = option.querySelector(".option-text").getAttribute("data-value");
+
+                                        sBtn_text.innerText = selectedOption;
+                                        sBtn_text.setAttribute("data-value", selectedValue);
+
+                                        optionMenu.classList.remove("active");
+                                        console.log(selectedValue);
+                                        selectedValues[0] = selectedValue
+                                        // window.location.href = '/Produk/' + selectedValue;
+
+                                    });
+                                });
+
+                                // Menambahkan event listener untuk select tahun
+                                document.getElementById('selectTahun').addEventListener('change', function() {
+                                    let selectedYear = this.value;
+                                    console.log("Selected Year:", selectedYear);
+
+                                    // Memperbarui nilai tahun yang dipilih dan menyimpannya ke dalam array
+                                    selectedValues[1] = selectedYear;
+                                });
+
+                                document.getElementById('filterBtn').addEventListener('click', function() {
+                                    console.log("Selected Values:", selectedValues);
+                                    // Lakukan pemrosesan atau pengiriman data ke controller di sini
+                                });
+                            </script>
+                            {{-- <a href="" class="btnFilter">Filter</a> --}}
 
                         </div>
                     </div><!-- End Recent Activity -->
@@ -300,7 +322,10 @@
                         </div>
 
                         <div class="card-body pb-0">
-                            <h5 class="card-title">Flood Risk<span>| Today</span></h5>
+                            @php
+                                $currentYear = date('Y');
+                            @endphp
+                            <h5 class="card-title">All<span> | {{ $currentYear }}</span></h5>
 
                             <div id="trafficChart" style="min-height: 400px;" class="echart"></div>
 
@@ -419,43 +444,331 @@
 @endsection
 
 @push('scripts')
+    {{-- <script src="jatim_1.js"></script> --}}
+    <script src="maps/js/qgis2web_expressions.js"></script>
+    <script src="maps/js/leaflet.js"></script>
+    <script src="maps/js/leaflet.rotatedMarker.js"></script>
+    <script src="maps/js/leaflet.pattern.js"></script>
+    <script src="maps/js/leaflet-hash.js"></script>
+    <script src="maps/js/Autolinker.min.js"></script>
+    <script src="maps/js/rbush.min.js"></script>
+    <script src="maps/js/labelgun.min.js"></script>
+    <script src="maps/js/labels.js"></script>
+    <script src="maps/js/leaflet-control-geocoder.Geocoder.js"></script>
+    <script src="maps/data/jatim_1.js"></script>
     <script>
-        var map = L.map('map').setView([-7.3012669468070435, 112.71712674621112], 14);
-        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 19,
-            attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-        }).addTo(map);
+        // var map = L.map('map').setView([-7.3012669468070435, 112.71712674621112], 14);
+        // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        //     maxZoom: 19,
+        //     attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+        // }).addTo(map);
 
-        var marker = L.marker([-7.31044033156845, 112.72867815857354]).addTo(map);
-        var polygon = L.polygon([
-            [-7.292065410900937, 112.69851435874224],
-            [-7.293831989598827, 112.70265568924368],
-            [-7.292831638662075, 112.70308484266353],
-            [-7.2935978651118685, 112.70510186373674],
-            [-7.295513425498254, 112.7050160330528],
-            [-7.295981672345739, 112.70673264673214],
-            [-7.3015793126217465, 112.70432938758104],
-            [-7.302515793182222, 112.7011536522641],
-            [-7.302515793182222, 112.69887913913897],
-        ]).addTo(map);
+        // var marker = L.marker([-7.31044033156845, 112.72867815857354]).addTo(map);
+        // var polygon = L.polygon([
+        //     [-7.292065410900937, 112.69851435874224],
+        //     [-7.293831989598827, 112.70265568924368],
+        //     [-7.292831638662075, 112.70308484266353],
+        //     [-7.2935978651118685, 112.70510186373674],
+        //     [-7.295513425498254, 112.7050160330528],
+        //     [-7.295981672345739, 112.70673264673214],
+        //     [-7.3015793126217465, 112.70432938758104],
+        //     [-7.302515793182222, 112.7011536522641],
+        //     [-7.302515793182222, 112.69887913913897],
+        // ]).addTo(map);
 
-        marker.bindPopup("<b>Yowww</b><br>You are in here.").openPopup();
-        polygon.bindPopup(
-            "Desa: <b>Bukit Mas</b><br>Kecamatan: <b>Ketintang</b><br>Kabupaten: <b>Surabaya</b><br>Ladang: <b>Padi</b><br>Luas: <b>2 Ha</b>"
+        // marker.bindPopup("<b>Yowww</b><br>You are in here.").openPopup();
+        // polygon.bindPopup(
+        //     "Desa: <b>Bukit Mas</b><br>Kecamatan: <b>Ketintang</b><br>Kabupaten: <b>Surabaya</b><br>Ladang: <b>Padi</b><br>Luas: <b>2 Ha</b>"
+        // );
+
+        // function popUp(f, l) {
+        //     var out = [];
+        //     if (f.properties) {
+        //         for (key in f.properties) {
+        //             out.push(key + ": " + f.properties[key]);
+        //         }
+        //         l.bindPopup(out.join("<br />"));
+        //     }
+        // }
+        // var jsonTest = new L.GeoJSON.AJAX(["jatim.geojson"], { onEachFeature: popUp }).addTo(map);
+
+        // L.geoJSON(json_jatim_1).addTo(map)
+
+        // Load GeoJSON from Laravel backend
+        // fetch('/geojson')
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         L.geoJSON(data, {
+        //             onEachFeature: popUp
+        //         }).addTo(map);
+        //     });
+
+        // $.getJSON('assets/jatim.geojson', function(json) {
+        //     geoLayer = L.geoJson(json, {
+        //         style: function(feature) {
+        //             return {
+        //                 fillOpacity: 0.5,
+        //                 weight: 5,
+        //                 opacity: 1,
+        //                 color: "#008cff"
+        //             };
+        //         },
+
+        //         onEachFeature: function(feature, layer) {
+        //             layer.addTo(map)
+        //         }
+        //     })
+        // })
+
+        // Mendefinisikan variabel array untuk menyimpan nilai dari kedua select option
+        // let selectedValues = ["All", ""]; // Nilai default untuk kategori dan tahun
+
+        // // Mendapatkan elemen-elemen yang diperlukan
+        // const optionMenu = document.querySelector(".select-menu");
+        // const selectBtn = optionMenu.querySelector(".select-btn");
+        // const options = optionMenu.querySelectorAll(".options .option-text");
+        // const sBtn_text = optionMenu.querySelector(".sBtn-text");
+
+        // // Menambahkan event listener untuk tombol filter
+        // // Menambahkan event listener untuk tombol filter
+        // // Menambahkan event listener untuk tombol filter
+
+
+        // // Menambahkan event listener untuk setiap opsi kategori
+        // options.forEach(option => {
+        //     option.addEventListener("click", () => {
+        //         let selectedOption = option.dataset.value;
+
+        //         sBtn_text.innerText = option.textContent;
+        //         sBtn_text.setAttribute("data-value", selectedOption);
+
+        //         console.log(selectedOption);
+
+        //         // Memperbarui nilai yang dipilih dan menyimpannya ke dalam array
+        //         selectedValues[0] = selectedOption;
+        //     });
+        // });
+
+        // // Menambahkan event listener untuk select tahun
+        // document.getElementById('selectTahun').addEventListener('change', function() {
+        //     let selectedYear = this.value;
+        //     console.log("Selected Year:", selectedYear);
+
+        //     // Memperbarui nilai tahun yang dipilih dan menyimpannya ke dalam array
+        //     selectedValues[1] = selectedYear;
+        // });
+
+        var map = L.map('map', {
+            zoomControl: true,
+            maxZoom: 28,
+            minZoom: 1
+        }).fitBounds([
+            [-9.145492105708538, 110.33581552802949],
+            [-6.026071711151023, 116.37849054634003]
+        ]);
+        var hash = new L.Hash(map);
+        map.attributionControl.setPrefix(
+            '<a href="https://github.com/tomchadwin/qgis2web" target="_blank">qgis2web</a> &middot; <a href="https://leafletjs.com" title="A JS library for interactive maps">Leaflet</a> &middot; <a href="https://qgis.org">QGIS</a>'
         );
+        var autolinker = new Autolinker({
+            truncate: {
+                length: 30,
+                location: 'smart'
+            }
+        });
+        var bounds_group = new L.featureGroup([]);
 
-        function popUp(f, l) {
-            var out = [];
-            if (f.properties) {
-                for (key in f.properties) {
-                    out.push(key + ": " + f.properties[key]);
-                }
-                l.bindPopup(out.join("<br />"));
+        function setBounds() {}
+        map.createPane('pane_OSMStandard_0');
+        map.getPane('pane_OSMStandard_0').style.zIndex = 400;
+        var layer_OSMStandard_0 = L.tileLayer('http://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            pane: 'pane_OSMStandard_0',
+            opacity: 1.0,
+            attribution: '<a href="https://www.openstreetmap.org/copyright">© OpenStreetMap contributors, CC-BY-SA</a>',
+            minZoom: 1,
+            maxZoom: 28,
+            minNativeZoom: 0,
+            maxNativeZoom: 19
+        });
+        layer_OSMStandard_0;
+        map.addLayer(layer_OSMStandard_0);
+
+        function pop_jatim_1(feature, layer) {
+            var popupContent = '<table>\
+                                                                                        <tr>\
+                                                                                            <td colspan="2">' + (feature
+                    .properties[
+                        'ID_0'] !==
+                    null ?
+                    autolinker
+                    .link(
+                        feature
+                        .properties[
+                            'ID_0'].toLocaleString()) : '') + '</td>\
+                                                                                        </tr>\
+                                                                                        <tr>\
+                                                                                            <td colspan="2">' + (feature
+                    .properties[
+                        'ISO'] !==
+                    null ?
+                    autolinker
+                    .link(
+                        feature
+                        .properties[
+                            'ISO'].toLocaleString()) : '') + '</td>\
+                                                                                        </tr>\
+                                                                                        <tr>\
+                                                                                            <td colspan="2">' + (feature
+                    .properties[
+                        'NAME_0'] !==
+                    null ?
+                    autolinker
+                    .link(
+                        feature
+                        .properties['NAME_0'].toLocaleString()) : '') + '</td>\
+                                                                                        </tr>\
+                                                                                        <tr>\
+                                                                                            <td colspan="2">' + (feature
+                    .properties[
+                        'ID_1'] !==
+                    null ?
+                    autolinker
+                    .link(
+                        feature
+                        .properties[
+                            'ID_1'].toLocaleString()) : '') + '</td>\
+                                                                                        </tr>\
+                                                                                        <tr>\
+                                                                                            <td colspan="2">' + (feature
+                    .properties[
+                        'NAME_1'] !==
+                    null ?
+                    autolinker
+                    .link(
+                        feature
+                        .properties['NAME_1'].toLocaleString()) : '') + '</td>\
+                                                                                        </tr>\
+                                                                                        <tr>\
+                                                                                            <td colspan="2">' + (feature
+                    .properties[
+                        'ID_2'] !==
+                    null ?
+                    autolinker
+                    .link(
+                        feature
+                        .properties[
+                            'ID_2'].toLocaleString()) : '') + '</td>\
+                                                                                        </tr>\
+                                                                                        <tr>\
+                                                                                            <td colspan="2">' + (feature
+                    .properties[
+                        'NAME_2'] !==
+                    null ?
+                    autolinker
+                    .link(
+                        feature
+                        .properties['NAME_2'].toLocaleString()) : '') + '</td>\
+                                                                                        </tr>\
+                                                                                        <tr>\
+                                                                                            <td colspan="2">' + (feature
+                    .properties[
+                        'TYPE_2'] !==
+                    null ?
+                    autolinker
+                    .link(
+                        feature
+                        .properties['TYPE_2'].toLocaleString()) : '') + '</td>\
+                                                                                        </tr>\
+                                                                                        <tr>\
+                                                                                            <td colspan="2">' + (feature
+                    .properties[
+                        'ENGTYPE_2'] !==
+                    null ?
+                    autolinker
+                    .link(
+                        feature
+                        .properties['ENGTYPE_2'].toLocaleString()) : '') + '</td>\
+                                                                                        </tr>\
+                                                                                        <tr>\
+                                                                                            <td colspan="2">' + (feature
+                    .properties[
+                        'NL_NAME_2'] !==
+                    null ?
+                    autolinker
+                    .link(
+                        feature
+                        .properties['NL_NAME_2'].toLocaleString()) : '') + '</td>\
+                                                                                        </tr>\
+                                                                                        <tr>\
+                                                                                            <td colspan="2">' + (feature
+                    .properties[
+                        'VARNAME_2'] !==
+                    null ?
+                    autolinker
+                    .link(
+                        feature
+                        .properties['VARNAME_2'].toLocaleString()) : '') +
+                '</td>\
+                                                                                        </tr>\
+                                                                                    </table>\
+                                                                                    <button class="btn btn-primary" id="detailButton">Detail</button>';
+            layer.bindPopup(popupContent, {
+                maxHeight: 400
+            });
+
+            // Menambahkan event listener untuk klik pada tombol "Detail"
+            layer.on('popupopen', function() {
+                document.getElementById('detailButton').addEventListener('click', function() {
+                    var City = feature.properties['NAME_2'];
+
+                    console.log("Ini Kota : ", City);
+                });
+            });
+        }
+
+
+
+
+        function style_jatim_1_0() {
+            return {
+                pane: 'pane_jatim_1',
+                opacity: 1,
+                color: 'rgba(35,35,35,1.0)',
+                dashArray: '',
+                lineCap: 'butt',
+                lineJoin: 'miter',
+                weight: 1.0,
+                fill: true,
+                fillOpacity: 1,
+                fillColor: 'rgba(114,155,111,0.5)',
+                interactive: true,
             }
         }
-        var jsonTest = new L.GeoJSON.AJAX(["colleges.geojson", "counties.geojson"], {
-            onEachFeature: popUp
+        map.createPane('pane_jatim_1');
+        map.getPane('pane_jatim_1').style.zIndex = 401;
+        map.getPane('pane_jatim_1').style['mix-blend-mode'] = 'normal';
+        var layer_jatim_1 = new L.geoJson(json_jatim_1, {
+            attribution: '',
+            interactive: true,
+            dataVar: 'json_jatim_1',
+            layerName: 'layer_jatim_1',
+            pane: 'pane_jatim_1',
+            onEachFeature: pop_jatim_1,
+            style: style_jatim_1_0,
+        });
+        bounds_group.addLayer(layer_jatim_1);
+        map.addLayer(layer_jatim_1);
+        var osmGeocoder = new L.Control.Geocoder({
+            collapsed: true,
+            position: 'topleft',
+            text: 'Search',
+            title: 'Testing'
         }).addTo(map);
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+            .className += ' fa fa-search';
+        document.getElementsByClassName('leaflet-control-geocoder-icon')[0]
+            .title += 'Search for a place';
+        setBounds();
 
         // L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}/?access_token={accessToken}', {
         //     maxZoom: 18,
@@ -468,7 +781,7 @@
 
 
 
-        // Mengisi pilihan tahun dari 2002 hingga 2022
+        // // Mengisi pilihan tahun dari 2002 hingga 2022
         // const selectTahun = document.getElementById("selectTahun");
         // for (let tahun = 2002; tahun <= 2022; tahun++) {
         //     selectTahun.options.add(new Option(tahun, tahun));
