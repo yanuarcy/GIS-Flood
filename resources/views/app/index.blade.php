@@ -42,6 +42,8 @@
     {{-- <script src="js/leaflet/labelgun.min.js"></script> --}}
     {{-- <script src="js/leaflet/labels.js"></script> --}}
 
+    @vite(['resources/sass/app.scss', 'resources/js/app.js'])
+
     <!-- Google Fonts -->
     <link href="https://fonts.gstatic.com" rel="preconnect">
     <link
