@@ -6,6 +6,9 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/sass/app.scss',
+                'resources/sass/Map/DropdownKategori.scss',
+                'resources/sass/Map/index.scss',
+                'resources/sass/Map/_variables.scss',
                 'resources/js/app.js',
             ],
             refresh: true,
