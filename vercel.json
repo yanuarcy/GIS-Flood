@@ -11,8 +11,8 @@
        "dest": "/api/index.php"
    }],
    "env": {
-        "APP_KEY": "base64:ED/y09/IOjCK231MdJg4AGAI6c3YchEACNim4qY8guE=",
        "APP_ENV": "production",
+       "APP_KEY": "base64:55X0Y0SNVXd8cAZ7yaCZge0wpqISMMFeQGeYIsiHs0c=",
        "APP_DEBUG": "true",
        "APP_URL": "https://gis-flood.vercel.app/",
 
