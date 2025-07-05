@@ -71,6 +71,8 @@
 * Author: BootstrapMade.com
 * License: https://bootstrapmade.com/license/
 ======================================================== -->
+
+    @stack('styles')
 </head>
 
 @include('layouts.Header')

@@ -6,10 +6,10 @@ export default defineConfig({
         laravel({
             input: [
                 'resources/sass/app.scss',
-                'resources/sass/Map/DropdownKategori.scss',
-                'resources/sass/Map/index.scss',
-                'resources/sass/_variables.scss',
                 'resources/js/app.js',
+                'resources/css/DropdownKategori.css',
+                'resources/css/leaflet.css',
+                'resources/css/qgis2web.css'
             ],
             refresh: true,
         }),

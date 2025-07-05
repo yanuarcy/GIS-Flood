@@ -7,13 +7,12 @@
 @extends('app.index')
 
 {{-- @vite('resources/views/Map/leaflet.ajax.js') --}}
-@vite('public/maps/css/leaflet.css')
-@vite('public/maps/css/qgis2web.css')
-@vite('public/maps/css/fontawesome-all.min.css')
-@vite('public/maps/css/leaflet-control-geocoder.Geocoder.css')
-@vite('resources/sass/Map/DropdownKategori.scss')
-@vite('resources/sass/Map/index.scss')
-@vite('resources/js/Map/DropdownKategori.js')
+{{-- @asset('public/maps/css/leaflet.css')
+@asset('public/maps/css/qgis2web.css')
+@asset('public/maps/css/fontawesome-all.min.css')
+@asset('public/maps/css/leaflet-control-geocoder.Geocoder.css')
+@asset('asset/css/DropdownKategori.css')
+@asset('asset/js/Map/DropdownKategori.js') --}}
 {{-- <link rel="stylesheet" href="maps/css/leaflet.css">
 <link rel="stylesheet" href="maps/css/qgis2web.css">
 <link rel="stylesheet" href="maps/css/fontawesome-all.min.css">

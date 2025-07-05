@@ -1,7 +1,11 @@
 @extends('app.index')
 {{-- @extends('layouts.sidebar') --}}
 
-@vite('resources/sass/Map/DropdownKategori.scss')
+{{-- @vite('resources/sass/Map/DropdownKategori.scss') --}}
+{{-- @asset('assets/css/DropdownKategori.css') --}}
+@push('styles')
+    <link href="{{ asset('assets/css/DropdownKategori.css') }}" rel="stylesheet">
+@endpush
 
 
 @section('content')
