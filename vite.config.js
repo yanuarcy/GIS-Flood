@@ -9,7 +9,9 @@ export default defineConfig({
                 'resources/js/app.js',
                 'resources/css/DropdownKategori.css',
                 'resources/css/leaflet.css',
-                'resources/css/qgis2web.css'
+                'resources/css/qgis2web.css',
+                'public/assets/css/style.css',
+                'public/assets/vendor/bootstrap/css/bootstrap.min.css'
             ],
             refresh: true,
         }),
