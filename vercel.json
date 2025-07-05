@@ -20,6 +20,10 @@
             "dest": "/public/img/$1"
         },
         {
+            "src": "/maps/(.*)",
+            "dest": "/public/maps/$1"
+        },
+        {
             "src": "/(.*\\.php)",
             "dest": "/api/$1"
         },

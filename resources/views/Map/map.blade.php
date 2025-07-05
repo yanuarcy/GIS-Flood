@@ -454,17 +454,17 @@
 
 @push('scripts')
     {{-- <script src="jatim_1.js"></script> --}}
-    <script src="maps/js/qgis2web_expressions.js"></script>
-    <script src="maps/js/leaflet.js"></script>
-    <script src="maps/js/leaflet.rotatedMarker.js"></script>
-    <script src="maps/js/leaflet.pattern.js"></script>
-    <script src="maps/js/leaflet-hash.js"></script>
-    <script src="maps/js/Autolinker.min.js"></script>
-    <script src="maps/js/rbush.min.js"></script>
-    <script src="maps/js/labelgun.min.js"></script>
-    <script src="maps/js/labels.js"></script>
-    <script src="maps/js/leaflet-control-geocoder.Geocoder.js"></script>
-    <script src="maps/data/jatim_1.js"></script>
+    <script src="{{ asset('maps/js/qgis2web_expressions.js') }}"></script>
+    <script src="{{ asset('maps/js/leaflet.js') }}"></script>
+    <script src="{{ asset('maps/js/leaflet.rotatedMarker.js') }}"></script>
+    <script src="{{ asset('maps/js/leaflet.pattern.js') }}"></script>
+    <script src="{{ asset('maps/js/leaflet-hash.js') }}"></script>
+    <script src="{{ asset('maps/js/Autolinker.min.js') }}"></script>
+    <script src="{{ asset('maps/js/rbush.min.js') }}"></script>
+    <script src="{{ asset('maps/js/labelgun.min.js') }}"></script>
+    <script src="{{ asset('maps/js/labels.js') }}"></script>
+    <script src="{{ asset('maps/js/leaflet-control-geocoder.Geocoder.js') }}"></script>
+    <script src="{{ asset('maps/data/jatim_1.js') }}"></script>
     <script>
         // var map = L.map('map').setView([-7.3012669468070435, 112.71712674621112], 14);
         // L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
