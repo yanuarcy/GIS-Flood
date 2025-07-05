@@ -10,6 +10,15 @@
        "src": "/(.*)",
        "dest": "/api/index.php"
    }],
+   "builds": [
+        {
+            "src": "package.json",
+            "use": "@vercel/static-build",
+            "config": {
+                "distDir": "public"
+            }
+        }
+    ],
    "env": {
        "APP_ENV": "production",
        "APP_KEY": "base64:55X0Y0SNVXd8cAZ7yaCZge0wpqISMMFeQGeYIsiHs0c=",

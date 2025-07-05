@@ -10,6 +10,7 @@
     <meta content="" name="keywords">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     <!-- Favicons -->
     <link href="/assets/img/TittleIcon.png" rel="icon">
